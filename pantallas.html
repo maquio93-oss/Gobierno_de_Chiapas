@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Marina Shopping Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #2b7a9b;
+            --color-secondary: #4db8d6;
+            --color-accent: #ffd700;
+            --color-text: #1a1a1a;
+            --color-text-light: #666;
+            --color-bg: #f5f5f5;
+            --color-blue: #3b82f6;
+            --color-yellow: #ffd700;
+            --color-red: #ff6b6b;
+            --color-green: #4a9d6f;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-bg);
+        }
+
+        .container {
+            width: 1080px;
+            height: 1920px;
+            margin: 0 auto;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== BARRA SUPERIOR ===== */
+        .header {
+            background: #009885;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .header-left p {
+            font-size: 14px;
+            opacity: 0.95;
+            margin: 0;
+        }
+
+        .header-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-right p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .time {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* ===== CONTENIDO PRINCIPAL ===== */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===== SECCIÓN 1: GRID DE 4 IMÁGENES ===== */
+        .section {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--color-text);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .grid-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        /* ===== SECCIÓN 2: CARRUSEL DE PLANTAS ===== */
+        .section-carousel {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .carousel-single {
+            flex: 1;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ddd;
+        }
+
+        .carousel-display {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-display.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        /* ===== SECCIÓN 3: TARJETAS BLUE ===== */
+        .section-blue {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .section-blue .section-title {
+            color: white;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card p {
+            font-size: 12px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* ===== SECCIÓN 4: TARJETAS RED ===== */
+        .section-red {
+            background: var(--color-red);
+            padding: 30px 20px;
+            color: white;
+        }
+
+        .section-red .section-title {
+            color: white;
+        }
+
+        /* ===== SCROLLBAR PERSONALIZADA ===== */
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1080px) {
+            .container {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        /* ===== PANTALLA 1080x1920 ===== */
+        @media (width: 1080px) and (height: 1920px) {
+            .container {
+                width: 1080px;
+                height: 1920px;
+            }
+
+            .header {
+                height: 80px;
+                padding: 0 30px;
+            }
+
+            .content {
+                height: calc(100vh - 80px);
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .section,
+            .section-carousel,
+            .section-blue {
+                height: calc((100vh - 140px) / 3);
+                flex: none;
+                padding: 25px;
+            }
+
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+
+            .grid-4 {
+                gap: 20px;
+                grid-template-rows: 1fr 1fr;
+            }
+
+            .grid-item {
+                min-height: 270px;
+                max-height: 270px;
+                border-radius: 15px;
+            }
+
+            .cards-grid {
+                gap: 20px;
+                grid-template-rows: 1fr 1fr;
+            }
+
+            .card {
+                min-height: 270px;
+                max-height: 270px;
+                border-radius: 15px;
+                font-size: 18px;
+            }
+
+            .carousel-single {
+                border-radius: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-left">
+                <h1>BIENVENIDO</h1>
+                <p>SEDE DEL GOBIERNO DEL ESTADO DE CHIAPAS</p>
+            </div>
+            <div class="header-right">
+                <p id="date">Miércoles, 7 de Enero</p>
+                <p class="time" id="time">14:49:30</p>
+                <p id="weather">25°C - Soleado - Tuxtla, Chiapas</p>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="content">
+            <!-- SECCIÓN 1: DIRECTORIO 1 -->
+            <section class="section">
+                <div class="grid-4">
+                    <div class="grid-item"><img src="img/tarjeta-01.png" alt="Tarjeta 1"></div>
+                    <div class="grid-item"><img src="img/tarjeta-02.png" alt="Tarjeta 2"></div>
+                    <div class="grid-item"><img src="img/tarjeta-03.png" alt="Tarjeta 3"></div>
+                    <div class="grid-item"><img src="img/tarjeta-04.png" alt="Tarjeta 4"></div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: CROQUIS -->
+            <section class="section-carousel">
+                <div class="carousel-single">
+                    <div class="carousel-display active"
+                        style="background: white; display: flex; align-items: center; justify-content: center;">
+                        <img src="img/croquis.webp" alt="Croquis Planta Baja"
+                            style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="carousel-display"
+                        style="background: white; display: flex; align-items: center; justify-content: center;">
+                        <img src="img/croquis2.jpg" alt="Croquis 2a Planta"
+                            style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="carousel-display"
+                        style="background: white; display: flex; align-items: center; justify-content: center;">
+                        <img src="img/croquis3.PNG" alt="Croquis 3a Planta"
+                            style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: DIRECTORIO 2 -->
+            <section class="section-blue">
+                <div class="cards-grid">
+                    <div class="card"><img src="img/tarjeta-05.png" alt="Tarjeta 5"></div>
+                    <div class="card"><img src="img/tarjeta-06.png" alt="Tarjeta 6"></div>
+                    <div class="card"><img src="img/tarjeta-7.png" alt="Tarjeta 7"></div>
+                    <div class="card"><img src="img/tarjeta-01.png" alt="Tarjeta 1"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Actualizar hora y fecha
+        function updateDateTime() {
+            const now = new Date();
+
+            // Formato de fecha
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('es-ES', options);
+            document.getElementById('date').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
+            // Formato de hora con segundos
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Actualizar clima (simulado)
+        function updateWeather() {
+            const weathers = [
+                '25°C - Soleado - Tuxtla, Chiapas',
+                '23°C - Parcialmente nublado - Tuxtla, Chiapas',
+                '27°C - Despejado - Tuxtla, Chiapas',
+                '24°C - Nublado - Tuxtla, Chiapas'
+            ];
+            const randomWeather = weathers[Math.floor(Math.random() * weathers.length)];
+            document.getElementById('weather').textContent = randomWeather;
+        }
+
+        // Actualizar al cargar
+        updateDateTime();
+        updateWeather();
+
+        // Actualizar cada segundo
+        setInterval(updateDateTime, 1000);
+
+        // Actualizar clima cada 5 minutos
+        setInterval(updateWeather, 300000);
+
+        // Carrusel automático de croquis
+        const carouselDisplays = document.querySelectorAll('.carousel-display');
+        let currentDisplayIndex = 0;
+
+        function updateCarouselDisplay() {
+            carouselDisplays.forEach((display, index) => {
+                display.classList.remove('active');
+                if (index === currentDisplayIndex) {
+                    display.classList.add('active');
+                }
+            });
+        }
+
+        // Cambiar cada 15 segundos automáticamente
+        setInterval(() => {
+            currentDisplayIndex = (currentDisplayIndex + 1) % carouselDisplays.length;
+            updateCarouselDisplay();
+        }, 15000); // 15000ms = 15 segundos
+    </script>
+</body>
+
+</html>
