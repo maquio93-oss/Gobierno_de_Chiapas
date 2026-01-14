@@ -342,6 +342,16 @@
                 border-radius: 15px;
             }
         }
+
+        /* ===== EFECTO FADE PARA TARJETAS ===== */
+        .fade-transition {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+        }
+
+        .fade-transition.fade-out {
+            opacity: 0;
+        }
     </style>
 </head>
 
@@ -365,10 +375,14 @@
             <!-- SECCIÓN 1: DIRECTORIO 1 -->
             <section class="section">
                 <div class="grid-4">
-                    <div class="grid-item"><img src="img/tarjeta8.png" alt="Tarjeta 8"></div>
-                    <div class="grid-item"><img src="img/tarjeta-02.png" alt="Tarjeta 2"></div>
-                    <div class="grid-item"><img src="img/tarjeta-03.png" alt="Tarjeta 3"></div>
-                    <div class="grid-item"><img src="img/tarjeta-04.png" alt="Tarjeta 4"></div>
+                    <div class="grid-item" id="card-container-1"><img class="fade-transition" id="card-img-1" src=""
+                            alt="Tarjeta 1"></div>
+                    <div class="grid-item" id="card-container-2"><img class="fade-transition" id="card-img-2" src=""
+                            alt="Tarjeta 2"></div>
+                    <div class="grid-item" id="card-container-3"><img class="fade-transition" id="card-img-3" src=""
+                            alt="Tarjeta 3"></div>
+                    <div class="grid-item" id="card-container-4"><img class="fade-transition" id="card-img-4" src=""
+                            alt="Tarjeta 4"></div>
                 </div>
             </section>
 
@@ -377,17 +391,17 @@
                 <div class="carousel-single">
                     <div class="carousel-display active"
                         style="background: white; display: flex; align-items: center; justify-content: center;">
-                        <img src="img/croquis.webp" alt="Croquis Planta Baja"
+                        <img src="img/croquisplantabaja2.png" alt="Croquis Planta Baja"
                             style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <div class="carousel-display"
                         style="background: white; display: flex; align-items: center; justify-content: center;">
-                        <img src="img/croquis2.jpg" alt="Croquis 2a Planta"
+                        <img src="img/croquisplantabaja2.png" alt="Croquis 2a Planta"
                             style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <div class="carousel-display"
                         style="background: white; display: flex; align-items: center; justify-content: center;">
-                        <img src="img/croquis3.PNG" alt="Croquis 3a Planta"
+                        <img src="img/croquisplantabaja2.png" alt="Croquis 3a Planta"
                             style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                 </div>
@@ -396,10 +410,14 @@
             <!-- SECCIÓN 3: DIRECTORIO 2 -->
             <section class="section-blue">
                 <div class="cards-grid">
-                    <div class="card"><img src="img/tarjeta-05.png" alt="Tarjeta 5"></div>
-                    <div class="card"><img src="img/tarjeta-06.png" alt="Tarjeta 6"></div>
-                    <div class="card"><img src="img/tarjeta-7.png" alt="Tarjeta 7"></div>
-                    <div class="card"><img src="img/tarjeta-01.png" alt="Tarjeta 1"></div>
+                    <div class="card" id="card-container-5"><img class="fade-transition" id="card-img-5" src=""
+                            alt="Tarjeta 5"></div>
+                    <div class="card" id="card-container-6"><img class="fade-transition" id="card-img-6" src=""
+                            alt="Tarjeta 6"></div>
+                    <div class="card" id="card-container-7"><img class="fade-transition" id="card-img-7" src=""
+                            alt="Tarjeta 7"></div>
+                    <div class="card" id="card-container-8"><img class="fade-transition" id="card-img-8" src=""
+                            alt="Tarjeta 8"></div>
                 </div>
             </section>
         </div>
@@ -462,6 +480,67 @@
             currentDisplayIndex = (currentDisplayIndex + 1) % carouselDisplays.length;
             updateCarouselDisplay();
         }, 15000); // 15000ms = 15 segundos
+
+        // Rotación de Tarjetas (14 tarjetas en 8 espacios)
+        const cardImages = [
+            'img/tarjetas/tarjeta6-01.png', 'img/tarjetas/tarjeta6-02.png', 'img/tarjetas/tarjeta6-03.png', 'img/tarjetas/tarjeta6-04.png',
+            'img/tarjetas/tarjeta6-05.png', 'img/tarjetas/tarjeta6-06.png', 'img/tarjetas/tarjeta6-07.png', 'img/tarjetas/tarjeta6-08.png',
+            'img/tarjetas/tarjeta6-09.png', 'img/tarjetas/tarjeta6-10.png', 'img/tarjetas/tarjeta6-11.png', 'img/tarjetas/tarjeta6-12.png',
+            'img/tarjetas/tarjeta6-13.png', 'img/tarjetas/tarjeta6-14.png'
+        ];
+
+        let cardsPageIndex = 0;
+        const totalSlots = 8;
+
+        function updateCards() {
+            // Pasos:
+            // 1. Agregar clase fade-out a todas las imágenes actuales
+            // 2. Esperar 500ms
+            // 3. Cambiar src y visibilidad
+            // 4. Quitar clase fade-out
+
+            const startIndex = cardsPageIndex * totalSlots;
+
+            // Paso 1: Fade out
+            for (let i = 1; i <= totalSlots; i++) {
+                const img = document.getElementById(`card-img-${i}`);
+                if (img) img.classList.add('fade-out');
+            }
+
+            // Paso 2: Esperar transición
+            setTimeout(() => {
+                for (let i = 1; i <= totalSlots; i++) {
+                    const imgIndex = startIndex + (i - 1);
+                    const container = document.getElementById(`card-container-${i}`);
+                    const img = document.getElementById(`card-img-${i}`);
+
+                    if (imgIndex < cardImages.length) {
+                        container.style.visibility = 'visible';
+                        img.src = cardImages[imgIndex];
+                    } else {
+                        container.style.visibility = 'hidden';
+                    }
+                }
+
+                // Paso 4: Fade in (quitar fade-out)
+                // Pequeño delay para asegurar que el DOM se actualizó con la nueva imagen
+                requestAnimationFrame(() => {
+                    for (let i = 1; i <= totalSlots; i++) {
+                        const img = document.getElementById(`card-img-${i}`);
+                        if (img) img.classList.remove('fade-out');
+                    }
+                });
+
+                // Calcular siguiente página
+                const maxPages = Math.ceil(cardImages.length / totalSlots);
+                cardsPageIndex = (cardsPageIndex + 1) % maxPages;
+
+            }, 500); // 500ms coincide con CSS transition
+        }
+
+        // Iniciar rotación
+        updateCards();
+        setInterval(updateCards, 15000);
     </script>
 </body>
 
