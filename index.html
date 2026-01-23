@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
     <title>La Marina Shopping Center</title>
     <style>
         * {
@@ -156,6 +157,7 @@
                 <p id="date">Miércoles, 7 de Enero</p>
                 <p class="time" id="time">14:49:30</p>
                 <p id="weather">25°C - Soleado - Tuxtla, Chiapas</p>
+                <button id="fullscreen-btn" onclick="toggleFullScreen()">Pantalla Completa</button>
             </div>
         </div>
 
@@ -272,6 +274,28 @@
 
         updateCards();
         setInterval(updateCards, 15000);
+
+        // Service Worker / PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW registrado', reg))
+                    .catch(err => console.log('SW error', err));
+            });
+        }
+
+        // Fullscreen Logic
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch((err) => {
+                    console.log(`Error al intentar pantalla completa: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
     </script>
 </body>
 

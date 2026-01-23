@@ -1,0 +1,21 @@
+{
+    "name": "Directorio Gobierno Chiapas",
+    "short_name": "Directorio",
+    "start_url": "./index.html",
+    "display": "fullscreen",
+    "background_color": "#ffffff",
+    "theme_color": "#009885",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "img/tarjetas/tarjetasfinal.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "img/tarjetas/tarjetasfinal.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
