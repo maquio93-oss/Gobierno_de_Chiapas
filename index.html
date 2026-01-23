@@ -237,14 +237,12 @@
         // Total slots: 5
         const totalSlots = 5;
 
-        // Imagenes disponibles (asegurar que haya suficientes para probar)
-        const cardImages = [
-            'img/tarjetas/tarjetasfinal.png',
-            'img/tarjetas/tarjetasfinal.png',
-            'img/tarjetas/tarjetasfinal.png',
-            'img/tarjetas/tarjetasfinal.png',
-            'img/tarjetas/tarjetasfinal.png'
-        ];
+        // Generar lista de imagenes (1 al 15)
+        const cardImages = [];
+        for (let i = 1; i <= 15; i++) {
+            const num = String(i).padStart(2, '0');
+            cardImages.push(`img/tarjetasfinal-${num}.png`);
+        }
 
         let cardsPageIndex = 0;
 
@@ -264,19 +262,19 @@
                     const container = document.getElementById(`container-${i}`);
                     const img = document.getElementById(`card-img-${i}`);
 
-                    // Ciclo infinito: usar módulo para asegurar que siempre haya imágenes
-                    // const safeIndex = imgIndex % cardImages.length;
+                    // Use modulo to loop if we want to show something, 
+                    // but since we have exactly 15 images and 5 slots, it fits perfectly (3 pages).
 
                     if (imgIndex < cardImages.length) {
                         img.src = cardImages[imgIndex];
                         container.style.visibility = 'visible';
+
+                        // Error handling for missing images (like maybe number 14)
+                        img.onerror = function () {
+                            this.src = 'img/tarjetas/tarjetasfinal.png'; // Fallback
+                            // or keep hidden: this.style.display = 'none';
+                        };
                     } else {
-                        // Loop back to start if we run out of images mid-page? 
-                        // Or just hide. User's request implies fitting cards. 
-                        // Let's loop back to make it look full always if possible, or hide if it's the end of a list.
-                        // For digital signage, usually we want full screens. 
-                        // But the previous code hid them. I will stick to hiding for now to be safe, 
-                        // but ideally we should loop or fill.
                         container.style.visibility = 'hidden';
                     }
                 }
@@ -297,7 +295,7 @@
         }
 
         updateCards();
-        setInterval(updateCards, 15000);
+        setInterval(updateCards, 8000);
 
         // Service Worker / PWA
         if ('serviceWorker' in navigator) {
