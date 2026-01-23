@@ -100,6 +100,7 @@
             cursor: pointer;
             margin-top: 5px;
             text-transform: uppercase;
+            outline: none;
 
             /* Camuflaje */
             opacity: 0;
@@ -118,7 +119,8 @@
         /* ===== CONTENIDO PRINCIPAL ===== */
         .content {
             flex: 1;
-            padding: 30px;
+            padding: 2vh 30px;
+            /* Less vertical padding, more space for cards */
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -128,7 +130,8 @@
         .main-grid {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 2vh;
+            /* Use relative unit for gap */
             height: 100%;
             width: 100%;
         }
