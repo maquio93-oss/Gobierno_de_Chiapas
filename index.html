@@ -89,6 +89,27 @@
             margin: 0;
         }
 
+        /* Botón Pantalla Completa - Camuflado */
+        #fullscreen-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 1.5vmin;
+            cursor: pointer;
+            margin-top: 5px;
+            text-transform: uppercase;
+
+            /* Camuflaje */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #fullscreen-btn:hover {
+            opacity: 1;
+        }
+
         .time {
             font-size: 3vmin;
             font-weight: bold;
