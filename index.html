@@ -126,14 +126,17 @@
             flex-direction: column;
         }
 
-        /* ===== MAIN GRID (1 Column, 6 Rows) ===== */
+        /* ===== MAIN GRID (1 Column, 6 Rows - actually 5 per user req) ===== */
         .main-grid {
             display: flex;
             flex-direction: column;
             gap: 2vh;
             /* Use relative unit for gap */
-            height: 100%;
+            flex: 1;
+            /* Ensure it takes all available space */
             width: 100%;
+            height: 100%;
+            /* Force height */
         }
 
         .card-container {
@@ -147,13 +150,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Fix for images not stretching */
+            width: 100%;
         }
 
         .card-container img {
             width: 100%;
             height: 100%;
             object-fit: fill;
-            /* Use fill to match user specific dimensions preference if aspect ratio matches, otherwise use cover */
+            /* Ensure it fills the container completely */
             border-radius: 15px;
         }
 
@@ -237,9 +242,15 @@
         // Total slots: 5
         const totalSlots = 5;
 
-        // Generar lista de imagenes (1 al 15)
+        // Generar lista de imagenes (1 al 8 y 12 al 15)
         const cardImages = [];
-        for (let i = 1; i <= 15; i++) {
+        // 1 to 8
+        for (let i = 1; i <= 8; i++) {
+            const num = String(i).padStart(2, '0');
+            cardImages.push(`img/tarjetasfinal-${num}.png`);
+        }
+        // 12 to 15 (Skipping 9, 10, 11)
+        for (let i = 12; i <= 15; i++) {
             const num = String(i).padStart(2, '0');
             cardImages.push(`img/tarjetasfinal-${num}.png`);
         }
