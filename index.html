@@ -132,18 +132,15 @@
         .main-grid {
             display: flex;
             flex-direction: column;
-            gap: 7vh;
-            /* Increased gap to 7vh for better Hikvision separation */
+            /* gap: 7vh;  <-- REMOVED: Hikvision browser might not support flex-gap */
             flex: 1;
             width: 100%;
             height: 100%;
             padding-bottom: 2vh;
-            /* Use padding to prevent cutting off if necessary */
         }
 
         .card-container {
             flex: 1;
-            /* Distribute available height equally */
             background: white;
             border-radius: 15px;
             overflow: hidden;
@@ -152,8 +149,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Fix for images not stretching */
             width: 100%;
+            margin-bottom: 6vh;
+            /* Force separation using margin */
+        }
+
+        /* Remove margin from the last card so it sits at the bottom */
+        .card-container:last-child {
+            margin-bottom: 0;
         }
 
         .card-container img {
