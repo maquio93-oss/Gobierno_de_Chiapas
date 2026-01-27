@@ -237,23 +237,19 @@
         updateWeather();
         setInterval(updateDateTime, 1000);
         setInterval(updateWeather, 300000);
-
         // Rotación de Tarjetas
         // Total slots: 5
         const totalSlots = 5;
 
-        // Generar lista de imagenes (1 al 8 y 12 al 15)
-        const cardImages = [];
-        // 1 to 8
-        for (let i = 1; i <= 8; i++) {
-            const num = String(i).padStart(2, '0');
-            cardImages.push(`img/tarjetasfinal-${num}.png`);
-        }
-        // 12 to 15 (Skipping 9, 10, 11)
-        for (let i = 12; i <= 15; i++) {
-            const num = String(i).padStart(2, '0');
-            cardImages.push(`img/tarjetasfinal-${num}.png`);
-        }
+        // Generar lista fija de 15 imagenes (3 pantallas completas)
+        // Pantalla 1: 1, 2, 3, 4, 5
+        // Pantalla 2: 6, 7, 8, 12, 13
+        // Pantalla 3: 1, 2, 3, 4, 15 (Repetimos 1-4 para llenar y dejamos la 15 al final)
+        const cardImages = [
+            'img/tarjetasfinal-01.png', 'img/tarjetasfinal-02.png', 'img/tarjetasfinal-03.png', 'img/tarjetasfinal-04.png', 'img/tarjetasfinal-05.png',
+            'img/tarjetasfinal-06.png', 'img/tarjetasfinal-07.png', 'img/tarjetasfinal-08.png', 'img/tarjetasfinal-12.png', 'img/tarjetasfinal-13.png',
+            'img/tarjetasfinal-01.png', 'img/tarjetasfinal-02.png', 'img/tarjetasfinal-03.png', 'img/tarjetasfinal-04.png', 'img/tarjetasfinal-15.png'
+        ];
 
         let cardsPageIndex = 0;
 
@@ -269,21 +265,18 @@
             // 2. Esperar y cambiar src
             setTimeout(() => {
                 for (let i = 1; i <= totalSlots; i++) {
+                    // Simple linear access since we have exactly 15 items
                     const imgIndex = startIndex + (i - 1);
+
                     const container = document.getElementById(`container-${i}`);
                     const img = document.getElementById(`card-img-${i}`);
-
-                    // Use modulo to loop if we want to show something, 
-                    // but since we have exactly 15 images and 5 slots, it fits perfectly (3 pages).
 
                     if (imgIndex < cardImages.length) {
                         img.src = cardImages[imgIndex];
                         container.style.visibility = 'visible';
 
-                        // Error handling for missing images (like maybe number 14)
                         img.onerror = function () {
-                            this.src = 'img/tarjetas/tarjetasfinal.png'; // Fallback
-                            // or keep hidden: this.style.display = 'none';
+                            this.src = 'img/tarjetas/tarjetasfinal.png';
                         };
                     } else {
                         container.style.visibility = 'hidden';
@@ -298,7 +291,7 @@
                     }
                 });
 
-                // Calcular siguiente página
+                // Cycle through 3 pages (0, 1, 2)
                 const maxPages = Math.ceil(cardImages.length / totalSlots);
                 cardsPageIndex = (cardsPageIndex + 1) % maxPages;
 
