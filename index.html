@@ -128,15 +128,15 @@
             flex-direction: column;
         }
 
-        /* ===== MAIN GRID (1 Column, 4 Rows) ===== */
+        /* ===== MAIN GRID (1 Column, 5 Rows) ===== */
         .main-grid {
             display: flex;
             flex-direction: column;
-            /* gap: 7vh;  <-- REMOVED: Hikvision browser might not support flex-gap */
+            /* gap: removed for compatibility */
             flex: 1;
             width: 100%;
             height: 100%;
-            padding-bottom: 2vh;
+            padding-bottom: 1vh;
         }
 
         .card-container {
@@ -150,8 +150,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            margin-bottom: 6vh;
-            /* Force separation using margin */
+            margin-bottom: 2vh;
+            /* Reduced margin to fit 5 cards */
         }
 
         /* Remove margin from the last card so it sits at the bottom */
@@ -197,7 +197,7 @@
 
         <!-- CONTENIDO PRINCIPAL -->
         <div class="content">
-            <!-- SINGLE 4-ROW GRID -->
+            <!-- SINGLE 5-ROW GRID -->
             <div class="main-grid">
                 <div class="card-container" id="container-1"><img class="fade-transition" id="card-img-1" src=""
                         alt="Slot 1"></div>
@@ -207,6 +207,8 @@
                         alt="Slot 3"></div>
                 <div class="card-container" id="container-4"><img class="fade-transition" id="card-img-4" src=""
                         alt="Slot 4"></div>
+                <div class="card-container" id="container-5"><img class="fade-transition" id="card-img-5" src=""
+                        alt="Slot 5"></div>
             </div>
         </div>
     </div>
@@ -241,18 +243,16 @@
         setInterval(updateDateTime, 1000);
         setInterval(updateWeather, 300000);
         // Rotación de Tarjetas
-        // Total slots: 4
-        const totalSlots = 4;
+        // Total slots: 5
+        const totalSlots = 5;
 
-        // Generar lista fija de 12 imagenes (3 pantallas completas de 4)
-        // Disponibles: 1-8, 12, 13, 15. (11 total)
-        // Pantalla 1: 1, 2, 3, 4
-        // Pantalla 2: 5, 6, 7, 8
-        // Pantalla 3: 12, 13, 1, 15 (Usamos 1 de relleno, 15 al final)
+        // Generar lista exacta de 10 imagenes (2 pantallas de 5)
+        // Eliminada la 06.
+        // Pantalla 1: 1, 2, 3, 4, 5
+        // Pantalla 2: 7, 8, 12, 13, 15
         const cardImages = [
-            'img/tarjetasfinal-01.png', 'img/tarjetasfinal-02.png', 'img/tarjetasfinal-03.png', 'img/tarjetasfinal-04.png',
-            'img/tarjetasfinal-05.png', 'img/tarjetasfinal-06.png', 'img/tarjetasfinal-07.png', 'img/tarjetasfinal-08.png',
-            'img/tarjetasfinal-12.png', 'img/tarjetasfinal-13.png', 'img/tarjetasfinal-01.png', 'img/tarjetasfinal-15.png'
+            'img/tarjetasfinal-01.png', 'img/tarjetasfinal-02.png', 'img/tarjetasfinal-03.png', 'img/tarjetasfinal-04.png', 'img/tarjetasfinal-05.png',
+            'img/tarjetasfinal-07.png', 'img/tarjetasfinal-08.png', 'img/tarjetasfinal-12.png', 'img/tarjetasfinal-13.png', 'img/tarjetasfinal-15.png'
         ];
 
         let cardsPageIndex = 0;
