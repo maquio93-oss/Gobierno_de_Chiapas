@@ -151,7 +151,6 @@
             justify-content: center;
             width: 100%;
             margin-bottom: 2vh;
-            /* Reduced margin to fit 5 cards */
         }
 
         /* Remove margin from the last card so it sits at the bottom */
@@ -163,13 +162,12 @@
             width: 100%;
             height: 100%;
             object-fit: fill;
-            /* Ensure it fills the container completely */
             border-radius: 15px;
         }
 
         /* ===== EFECTO FADE ===== */
         .fade-transition {
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
             opacity: 1;
         }
 
@@ -252,58 +250,95 @@
         // Pantalla 2: 7, 8, 12, 13, 15
         const cardImages = [
             'img/tarjetasfinal-01.png', 'img/tarjetasfinal-02.png', 'img/tarjetasfinal-03.png', 'img/tarjetasfinal-04.png', 'img/tarjetasfinal-05.png',
-            'img/tarjetasfinal-07.png', 'img/tarjetasfinal-08.png', 'img/tarjetasfinal-12.png', 'img/tarjetasfinal-13.png', 'img/tarjetasfinal-15.png'
+            'img/tarjetasfinal-07.png', 'img/tarjetasfinal-08.png', 'img/tarjetasfinal-12.png', 'img/tarjetasfinal-13.png', 'img/tarjetasfinal-15.png',
+            'img/planta1/tarjetasfinal1planta-01.png', 'img/planta1/tarjetasfinal1planta-09.png', 'img/planta1/tarjetasfinal1planta-03.png', 'img/planta1/tarjetasfinal1planta-04.png',
+            'img/planta1/tarjetasfinal1planta-05.png', 'img/planta1/tarjetasfinal1planta-06.png', 'img/planta1/tarjetasfinal1planta-07.png', 'img/planta1/tarjetasfinal1planta-08.png',
+            'img/planta1/tarjetasfinal1planta-02.png', 'img/planta1/tarjetasfinal1planta-10.png', 'img/planta1/tarjetasfinal1planta-11.png', 'img/planta1/tarjetasfinal1planta-12.png',
+            'img/planta1/tarjetasfinal1planta-13.png', 'img/planta1/tarjetasfinal1planta-14.png', 'img/planta1/tarjetasfinal1planta-15.png', 'img/planta1/tarjetasfinal1planta-16.png',
+            'img/tarjetasfinal-15.png', 'img/tarjetasfinalblanco.png', 'img/tarjetasfinalblanco.png', 'img/tarjetasfinalblanco.png',
+            'img/Tarjeta2planta/tarjetasfinal2planta-01.png', 'img/Tarjeta2planta/tarjetasfinal2planta-02.png', 'img/Tarjeta2planta/tarjetasfinal2planta-03.png', 'img/Tarjeta2planta/tarjetasfinal2planta-04.png', 'img/Tarjeta2planta/tarjetasfinal2planta-05.png',
+            'img/Tarjeta2planta/tarjetasfinal2planta-06.png', 'img/Tarjeta2planta/tarjetasfinal2planta-07.png', 'img/Tarjeta2planta/tarjetasfinal2planta-08.png', 'img/Tarjeta2planta/tarjetasfinal2planta-09.png', 'img/Tarjeta2planta/tarjetasfinal2planta-10.png',
+            'img/Tarjeta2planta/tarjetasfinal2planta-11.png', 'img/Tarjeta2planta/tarjetasfinal2planta-12.png', 'img/Tarjeta2planta/tarjetasfinal2planta-13.png', 'img/Tarjeta2planta/tarjetasfinal2planta-14.png', 'img/Tarjeta2planta/tarjetasfinal2planta-15.png',
+            'img/Tarjeta2planta/tarjetasfinal2planta-16.png', 'img/Tarjeta2planta/tarjetasfinal2planta-17.png', 'img/Tarjeta2planta/tarjetasfinal2planta-18.png', 'img/Tarjeta2planta/tarjetasfinal2planta-19.png',
+            'img/tarjetasfinal-15.png'
         ];
 
         let cardsPageIndex = 0;
 
+        // Función para precargar imágenes
+        function preloadImages(imageUrls) {
+            return Promise.all(
+                imageUrls.map(url => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(url);
+                        img.onerror = () => {
+                            console.warn(`Error cargando: ${url}`);
+                            resolve(url); // Resolvemos de todos modos para no bloquear
+                        };
+                        img.src = url;
+                    });
+                })
+            );
+        }
+
         function updateCards() {
             const startIndex = cardsPageIndex * totalSlots;
 
-            // 1. Fade out
+            // Preparar las URLs de las imágenes que vamos a mostrar
+            const nextImages = [];
             for (let i = 1; i <= totalSlots; i++) {
-                const img = document.getElementById(`card-img-${i}`);
-                if (img) img.classList.add('fade-out');
+                const imgIndex = startIndex + (i - 1);
+                if (imgIndex < cardImages.length) {
+                    nextImages.push(cardImages[imgIndex]);
+                }
             }
 
-            // 2. Esperar y cambiar src
-            setTimeout(() => {
+            // 1. PRIMERO precargar todas las imágenes (mientras las viejas siguen visibles)
+            preloadImages(nextImages).then(() => {
+                // 2. Ahora que están cargadas, hacer fade out
                 for (let i = 1; i <= totalSlots; i++) {
-                    // Simple linear access since we have exactly 15 items
-                    const imgIndex = startIndex + (i - 1);
-
-                    const container = document.getElementById(`container-${i}`);
                     const img = document.getElementById(`card-img-${i}`);
-
-                    if (imgIndex < cardImages.length) {
-                        img.src = cardImages[imgIndex];
-                        container.style.visibility = 'visible';
-
-                        img.onerror = function () {
-                            this.src = 'img/tarjetas/tarjetasfinal.png';
-                        };
-                    } else {
-                        container.style.visibility = 'hidden';
-                    }
+                    if (img) img.classList.add('fade-out');
                 }
 
-                // 3. Fade in
-                requestAnimationFrame(() => {
+                // 3. Esperar el fade out y cambiar src
+                setTimeout(() => {
+                    // Cambiar src de las imágenes (ya están precargadas)
                     for (let i = 1; i <= totalSlots; i++) {
+                        const imgIndex = startIndex + (i - 1);
+                        const container = document.getElementById(`container-${i}`);
                         const img = document.getElementById(`card-img-${i}`);
-                        if (img) img.classList.remove('fade-out');
+
+                        if (imgIndex < cardImages.length) {
+                            img.src = cardImages[imgIndex];
+                            container.style.visibility = 'visible';
+
+                            img.onerror = function () {
+                                this.src = 'img/tarjetasfinalblanco.png';
+                            };
+                        } else {
+                            container.style.visibility = 'hidden';
+                        }
                     }
-                });
 
-                // Cycle through 3 pages (0, 1, 2)
-                const maxPages = Math.ceil(cardImages.length / totalSlots);
-                cardsPageIndex = (cardsPageIndex + 1) % maxPages;
+                    // 4. Fade in inmediatamente
+                    requestAnimationFrame(() => {
+                        for (let i = 1; i <= totalSlots; i++) {
+                            const img = document.getElementById(`card-img-${i}`);
+                            if (img) img.classList.remove('fade-out');
+                        }
+                    });
 
-            }, 500);
+                    // Cycle through pages
+                    const maxPages = Math.ceil(cardImages.length / totalSlots);
+                    cardsPageIndex = (cardsPageIndex + 1) % maxPages;
+                }, 200);
+            });
         }
 
         updateCards();
-        setInterval(updateCards, 8000);
+        setInterval(updateCards, 10000);
 
         // Service Worker / PWA
         if ('serviceWorker' in navigator) {
