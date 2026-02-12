@@ -47,40 +47,9 @@ docker-compose up -d
 
 Una vez desplegado, el sitio estará disponible en:
 - **Puerto local**: http://localhost:3028
-- **Subdominio**: http://sag.chiapas.gob.mx/
+- **Subdominio con puerto**: http://sag.chiapas.gob.mx:3028
 
-## ⚙️ Configuración del Servidor
-
-### Configurar Reverse Proxy (Nginx/Apache)
-
-Si usas un reverse proxy en tu servidor, configura:
-
-**Nginx:**
-```nginx
-server {
-    listen 80;
-    server_name sag.chiapas.gob.mx;
-
-    location / {
-        proxy_pass http://localhost:3028;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-**Apache:**
-```apache
-<VirtualHost *:80>
-    ServerName sag.chiapas.gob.mx
-    
-    ProxyPreserveHost On
-    ProxyPass / http://localhost:3028/
-    ProxyPassReverse / http://localhost:3028/
-</VirtualHost>
-```
+> **Nota**: El acceso es directo al puerto 3028, no se requiere configuración de reverse proxy.
 
 ## 🔄 Actualización del Proyecto
 
