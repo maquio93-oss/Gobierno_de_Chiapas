@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  directorio-virtual:
+    build: .
+    container_name: gobierno-chiapas-directorio
+    restart: unless-stopped
+    ports:
+      - "3028:80"
+    environment:
+      - TZ=America/Mexico_City
+    networks:
+      - directorio-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  directorio-network:
+    driver: bridge
